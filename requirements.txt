@@ -1,0 +1,5 @@
+apex==0.1
+numpy==1.21.2
+six==1.16.0
+torch==1.10.0a0+0aef44c
+transformers==4.19.4

@@ -4,24 +4,21 @@ from collections import OrderedDict
 import random
 import torch
 from torch.utils.data import Dataset, DataLoader
-from upr import print_rank_0
-from upr.data_utils import DistributedBatchSampler
+from utils import print_rank_0
+from utils.data_utils import DistributedBatchSampler
 
 
-def get_nq_open_dataset(task_name, dataset_path, sample_rate=1.0):
-    dataset = NQOpenDataset(task_name,
-                            "OpenQA",
+def get_openqa_dataset(task_name, dataset_path, sample_rate=1.0):
+    dataset = OpenQADataset(task_name,
+                            "open-domain retrieval",
                             dataset_path,
                             sample_rate)
     return dataset
 
 
 
-class NQOpenDataset(ABC, Dataset):
-    """Open Retrieval Evidence dataset class."""
-
+class OpenQADataset(ABC, Dataset):
     def __init__(self, task_name, dataset_name, filepath, sample_rate):
-        # Store inputs.
         self.task_name = task_name
         self.dataset_name = dataset_name
         print_rank_0(' > building {} dataset for {}:'.format(self.task_name,
@@ -45,18 +42,13 @@ class NQOpenDataset(ABC, Dataset):
 
     def __getitem__(self, idx):
         row = self.samples[idx]
-        # decoder_prompt = decoder_few_shot_prompt_nq.format(row['question'])
 
         # These [CLS] and [SEP] tokens exist due to BERT tokenization, so we need to remove them
         if "[CLS]" and "[SEP]" in row['question']:
             row['question'] = " ".join(row['question'].split()[1:-1])
 
-        if self.task_name == "answer-generation":
-            decoder_prompt = "Answer this question based on the context. Question: {}{} Answer:".format(row['question'],
-                                                                                                        self.ques_punc)
-        elif self.task_name == "reranking":
+        if self.task_name == "reranking":
             decoder_prompt = "Question: {}{}".format(row['question'], self.ques_punc)
-
         else:
             raise AssertionError("invalid --task-name argument {}".format(self.task_name))
 

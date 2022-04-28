@@ -4,7 +4,7 @@ import torch
 
 
 def initialize_distributed(args):
-    """Initialize torch.distributed and mpu."""
+    """Initialize torch.distributed"""
 
     device_count = torch.cuda.device_count()
     if torch.distributed.is_initialized():
