@@ -33,6 +33,9 @@ ARGS=" \
   --merge-shards-and-save \
   --special-suffix ${DATASET}-${SPLIT}-plm-${MODEL}-topk-${TOPK} "
 
+# `--use-bf16` option provides speed ups and memory savings on Ampere GPUs such as A100 or A6000.
+# However, when working with V100 GPUs, this argument should be removed.
+
 
 COMMAND="WORLD_SIZE=${WORLD_SIZE} python ${DISTRIBUTED_ARGS} upr.py ${ARGS}"
 eval "${COMMAND}"

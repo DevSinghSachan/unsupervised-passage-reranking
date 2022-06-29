@@ -124,7 +124,7 @@ python data/download_data.py \
 ```
 
 For example, to download all the top-K data, use `--resource data`.
-To download a specific retriever's top-K data, for example BM25, use `--resource BM25`.
+To download a specific retriever's top-K data, for example BM25, use `--resource bm25`.
 
 
 <a id="usage"></a>
@@ -147,6 +147,8 @@ python ${DISTRIBUTED_ARGS} upr.py \
   --evidence-data-path "wikipedia-split/psgs_w100.tsv" \
   --retriever-topk-passages-path "bm25/nq-dev.json"
 ```
+
+`--use-bf16` option provides speed ups and memory savings on Ampere GPUs such as A100 or A6000. However, when working with V100 GPUs, this argument should be removed.
 
 
 We have provided an example script "[upr-demo.sh](examples/upr-demo.sh)" under the directory "[examples](examples)".
