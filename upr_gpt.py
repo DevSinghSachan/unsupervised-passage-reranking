@@ -36,7 +36,7 @@ class Reranking():
         self.load_attributes()
         self.is_main_builder = dist.get_rank() == 0
         self.num_total_builders = dist.get_world_size()
-        self.temp_dir_name = os.path.join(args.output_path, '_tmp_reranker')
+        self.temp_dir_name = os.path.join(args.reranker_output_dir, '_tmp_reranker')
 
     def load_attributes(self):
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
