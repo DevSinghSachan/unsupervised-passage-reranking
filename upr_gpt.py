@@ -23,24 +23,22 @@ def set_random_seed(seed):
 
 
 class Reranking():
-    def __init__(self, args, call_load_attributes_func=True):
+    def __init__(self, args):
         self.model = None
         self.dataloader = None
         self.dataset = None
+        self.evidence_dataset = None
 
         self.args = args
-
         self.log_interval = args.log_interval
-        self.batch_size = args.batch_size
+        self.batch_size = 1
 
-        if call_load_attributes_func:
-            self.load_attributes()
+        self.load_attributes()
         self.is_main_builder = dist.get_rank() == 0
         self.num_total_builders = dist.get_world_size()
-
         self.temp_dir_name = os.path.join(args.output_path, '_tmp_reranker')
 
-    def load_attributes(self, custom_load_path=None, key_list=None):
+    def load_attributes(self):
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
         self.tokenizer = AutoTokenizer.from_pretrained(self.args.hf_model_name)
 
@@ -51,6 +49,9 @@ class Reranking():
             self.model = AutoModelForCausalLM.from_pretrained(self.args.hf_model_name, torch_dtype=torch.float16)
         else:
             self.model = AutoModelForCausalLM.from_pretrained(self.args.hf_model_name)
+
+        for param in self.model.parameters():
+            param.requires_grad = False
 
         if self.args.use_gpu:
             self.model = self.model.cuda()
@@ -63,7 +64,7 @@ class Reranking():
                                                                 tokens_encode_func=None)
 
         self.dataset = get_openqa_dataset(self.args.task_name,
-                                          self.args.retriever_output_path,
+                                          self.args.retriever_topk_passages_path,
                                           sample_rate=self.args.sample_rate)
 
         self.dataloader = iter(get_one_epoch_dataloader(self.dataset,
@@ -109,14 +110,15 @@ class Reranking():
 
             assert len(batch['id']) == 1, "Currently, we are doing inference with batch size 1"
 
-            all_contexts = batch['encoder_ids'][0][:self.args.topk_contexts]
+            all_contexts = batch['encoder_ids'][0][:self.args.topk_passages]
 
             all_ids, all_labels = [], []
             has_answer_list = []
             max_input_size = -1
 
             for i, context in enumerate(all_contexts):
-                passage = "Passage: {} {}. Please write a question based on this passage.".format(context.get('title'), context.get('text'))
+                text, title = self.evidence_dataset.id2text[int(context.get("id"))]
+                passage = "{} {} {}. {}".format(self.args.verbalizer_head, title, text, self.args.verbalizer)
                 cids = self.tokenizer(passage,
                                       max_length=512,
                                       truncation=True).input_ids
@@ -284,23 +286,21 @@ def get_args():
     group.add_argument('--special-suffix', type=str, default="",
                        help='special suffix extension for saving merged file')
 
-    group.add_argument('--retriever-output-path', type=str, default="/checkpoint/dsachan/retriever-outputs/nq-dev.json",
+    group.add_argument('--retriever-topk-passages-path', type=str, default="/checkpoint/dsachan/retriever-outputs/nq-dev.json",
                        help='Path of the Top-K outputs from retriever (.json file)')
 
-    group.add_argument('--topk-contexts', type=int, default=100,
+    group.add_argument('--topk-passages', type=int, default=100,
                        help='number of topk context to select')
 
     group.add_argument('--log-interval', type=int, default=100,
                        help='Interval between progress updates')
-
-    group.add_argument('--batch-size', type=int, default=1)
 
     group.add_argument('--shard-size', type=int, default=50)
 
     group.add_argument('--num-workers', type=int, default=2,
                        help="Dataloader number of workers.")
 
-    group.add_argument('--output-path', type=str, default="/checkpoint/dsachan/marge-reranking/",
+    group.add_argument('--reranker-output-dir', type=str, default="/checkpoint/dsachan/marge-reranking/",
                        help='Where to save inference results')
 
     group.add_argument('--task-name', type=str, default="reranking",
@@ -309,11 +309,11 @@ def get_args():
     group.add_argument('--hf-model-name', type=str, default="t5-large",
                        help='Name of the HF model.')
 
-    group.add_argument('--interactive-node', action='store_true',
-                       help='If the node is interactive or not')
-
     group.add_argument('--use-gpu', action='store_true',
                        help='Use GPU or not')
+
+    group.add_argument('--interactive-node', action='store_true',
+                       help='If the node is interactive or not')
 
     group.add_argument('--use-fp16', action='store_true',
                        help='Use FP16 or not')
@@ -327,7 +327,16 @@ def get_args():
     group.add_argument('--random-seed', type=int, default=1234,
                        help="Random seed.")
 
-    group.add_argument('--report-topk-accuracies', nargs='+', type=int, default=[],
+    group.add_argument('--evidence-data-path', type=str, default=None,
+                       help='Path to Wikipedia evidence passages file')
+
+    group.add_argument('--verbalizer', type=str, default="Please write a question based on this passage.",
+                       help='Prompt string for generating the target tokens')
+
+    group.add_argument('--verbalizer-head', type=str, default="Passage: ",
+                       help='The string token used to represent encoder input')
+
+    group.add_argument('--report-topk-accuracies', nargs='+', type=int, default=[1, 5, 10, 20, 50, 100],
                        help="Which top-k accuracies to report (e.g. '1 5 20')")
 
     args = parser.parse_args()
