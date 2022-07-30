@@ -132,10 +132,10 @@ class Reranking():
                 qlabel = qids
 
                 ids = cids + qids
-                all_ids.append(ids)
+                all_ids.append(ids + [self.tokenizer.eos_token_id])
 
                 labels = clabel + qlabel
-                all_labels.append(labels)
+                all_labels.append(labels + [self.tokenizer.eos_token_id])
 
                 if len(ids) > max_input_size:
                     max_input_size = len(ids)
