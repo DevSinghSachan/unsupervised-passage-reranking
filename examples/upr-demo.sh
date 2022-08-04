@@ -14,7 +14,7 @@ RETRIEVER="bm25"
 TOPK=1000
 EVIDENCE_DATA_PATH="${BASE_DIR}/wikipedia-split/psgs_w100.tsv"
 
-WORLD_SIZE=16
+WORLD_SIZE=8
 DISTRIBUTED_ARGS="-m torch.distributed.launch --nproc_per_node ${WORLD_SIZE} --nnodes 1 --node_rank 0 --master_addr localhost --master_port 6000"
 
 

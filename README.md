@@ -3,8 +3,12 @@
 <!-- MarkdownTOC -->
 
 - [Setup](#setup)
+- [Input Data Format](#input-data-format)
 - [Downloading Data](#downloading-data)
 - [Usage](#usage)
+- [Results](#results)
+- [Issues](#issues)
+- [Citation](#citation)
 
 <!-- /MarkdownTOC -->
 
@@ -34,6 +38,7 @@ To use this docker image, an installation of the [Nvidia container toolkit](http
 Over the docker container, please install the libraries `transformers` and `sentencepiece` using pip install.
 
 
+<a id="input-data-format"></a>
 # Input Data Format
 
 #### Wikipedia Evidence Passages
@@ -118,13 +123,13 @@ We provide the top-1000 retrieved passages for the dev/test splits of NaturalQue
 Please use the following command to download these datasets
 
 ```python
-python data/download_data.py \
+python utils/download_data.py \
 	--resource {key from download_data.py's RESOURCES_MAP}  \
 	[optional --output_dir {your location}]
 ```
 
 For example, to download all the top-K data, use `--resource data`.
-To download a specific retriever's top-K data, for example BM25, use `--resource bm25`.
+To download a specific retriever's top-K data, for example BM25, use `--resource data.retriever-outputs.bm25`.
 
 
 <a id="usage"></a>
@@ -154,13 +159,14 @@ python ${DISTRIBUTED_ARGS} upr.py \
 We have provided an example script "[upr-demo.sh](examples/upr-demo.sh)" under the directory "[examples](examples)".
 To use this script, please modify the data and input / output file paths accordingly.
 
-# Evaluation
+<a id="results"></a>
+# Results
 
  We provide the evaluation scores on the test sets of datasets when using T0-3B language model in UPR.
 
 * Top-20 retrieval accuracy for unsupervised retrievers
 
-Retriever (+Re-ranker)  | SQuAD-Open | TriviaQA | Natural Questions | Web Questions | Entity Questions
+Retriever (+Re-ranker)  | SQuAD-Open | TriviaQA | Natural Questions-Open | Web Questions | Entity Questions
  ------------      |:-----------:|:-----------:|:-------:|:------:|:------:|
 MSS                | 51.3 | 67.2 | 60.0 | 49.2 | 51.2 |
 MSS + *UPR*        | 75.7 | 81.3 | 77.3 | 71.8 | 71.3 | 
@@ -171,7 +177,7 @@ Contriever + *UPR* | 81.3 | **82.8** | **84.7** | **75.7** | 76.0
 
 * Top-20 retrieval accuracy for supervised retrievers
 
-Retriever (+Re-ranker)  | SQuAD-Open | TriviaQA | Natural Questions | Web Questions | Entity Questions
+Retriever (+Re-ranker)  | SQuAD-Open | TriviaQA | Natural Questions-Open | Web Questions | Entity Questions
  ------------      |:-----------:| :-----------: |:-----:|:----:|:---:|
 DPR                | 59.4 | 79.8 | 79.2 | 74.6 | 51.1 |
 DPR + *UPR*        | 80.7 | 84.3 | 83.4 | 76.5 | 65.4 |
@@ -179,9 +185,40 @@ MSS-DPR            | 73.1 | 81.9 | 81.4 | 76.9 | 60.6 |
 MSS-DPR + *UPR*    | **85.2** | **84.8** | **83.9** | **77.2** | 73.9 |
 
 
+#### Ablation Study: Impact of Pre-trained Language Models
+
+We re-rank the union of top-1000 passages retrieved from BM25 and MSS retrievers Natural Questions-Open development set.
+This data file can be downloaded as:
+
+```bash
+python utils/download_data.py --resource data.retriever-outputs.mss-bm25-union.nq-dev
+``` 
+
+Language Model | Retriever | Top-1 | Top-5 | Top-20 | Top-100
+|--------------|:-----:|:-----:|:------:|:------:|:------:|
+| -            | BM25 | 22.3  | 43.8 | 62.3 | 76.0 |  
+| -            | MSS  | 17.7  | 38.6 | 57.4 | 72.4 |
+|T5 (3B)       | BM25 + MSS | 22.0 | 50.5 | 71.4 | 84.0 |
+|GPT-neo (2.7B)| BM25 + MSS | 27.2 | 55.0 | 73.9 | 84.2 |
+|GPT-j (6B)    | BM25 + MSS | 29.8 | 59.5 | 76.8 | 85.6 |
+|T5-lm-adapt (250M) | BM25 + MSS | 23.9 | 51.4 | 70.7 | 83.1 |
+|T5-lm-adapt (800M) | BM25 + MSS | 29.1 | 57.5 | 75.1 | 84.8 |
+|T5-lm-adapt (3B) | BM25 + MSS | 29.7 | 59.9 | 76.9 | 85.6 |
+|T5-lm-adapt (11B) | BM25 + MSS | 32.1 | 62.3 | 78.5 | 85.8 |
+|T0-3B | BM25 + MSS | 36.7 | **64.9** | **79.1** | **86.1** |
+|T0-11B | BM25 + MSS | **37.4** | **64.9** | **79.1** | 86.0 |
+
+The GPT models can be run in UPR by using the script `gpt/upr_gpt.py`. This script has similar options to that of `upr.py` script, but we need to pass `--use-fp16` as the argument instead of `--use-bf16`.
+The argument of `--hf-model-name` can be either `EleutherAI/gpt-neo-2.7B` or `EleutherAI/gpt-j-6B`.
+
+<a id="issues"></a>
+# Issues
+For any errors or bugs in the codebase, please either open a new issue or send an email to Devendra Singh Sachan (sachan.devendra@gmail.com) .
+
+<a id="citation"></a>
 # Citation
 
-If you find this code useful, please consider citing our paper as:
+If you find this code or data useful, please consider citing our paper as:
 
 ```bash
 @article{sachan2022improving,

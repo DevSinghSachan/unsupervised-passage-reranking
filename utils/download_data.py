@@ -64,6 +64,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from BM25 retriever for the Entity Questions test set.",
     },
 
+    # Contriever data
     "data.retriever-outputs.contriever.entity-questions": {
         "dropbox_url": "https://www.dropbox.com/s/jmvs0lc6u03ydbu/entity-questions.tar.gz",
         "original_ext": "",
@@ -417,6 +418,14 @@ RESOURCES_MAP = {
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the Squad1-Open test set.",
+    },
+
+    # Union of MSS-BM25 data
+    "data.retriever-outputs.mss-bm25-union.nq-dev": {
+        "dropbox_url": "https://www.dropbox.com/s/n2s1hu6pudn0dki/nq-dev.tar.gz",
+        "original_ext": ".json",
+        "compressed": True,
+        "desc": "Top-2000 passages from the union of MSS + BM25 for the NQ-Open dev set.",
     },
 }
 
