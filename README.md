@@ -187,26 +187,28 @@ MSS-DPR + *UPR*    | **85.2** | **84.8** | **83.9** | **77.2** | 73.9 |
 
 #### Ablation Study: Impact of Pre-trained Language Models
 
-We re-rank the union of top-1000 passages retrieved from BM25 and MSS retrievers Natural Questions-Open development set.
+We re-rank the union of top-1000 passages retrieved from each of BM25 and MSS retrievers Natural Questions-Open development set.
 This data file can be downloaded as:
 
 ```bash
 python utils/download_data.py --resource data.retriever-outputs.mss-bm25-union.nq-dev
 ``` 
 
+For these ablation experiments, we pass the argument `--topk-passages 2000` as this file contains the union of two sets of top-1000 passages.
+
 Language Model | Retriever | Top-1 | Top-5 | Top-20 | Top-100
 |--------------|:-----:|:-----:|:------:|:------:|:------:|
 | -            | BM25 | 22.3  | 43.8 | 62.3 | 76.0 |  
 | -            | MSS  | 17.7  | 38.6 | 57.4 | 72.4 |
-|T5 (3B)       | BM25 + MSS | 22.0 | 50.5 | 71.4 | 84.0 |
-|GPT-neo (2.7B)| BM25 + MSS | 27.2 | 55.0 | 73.9 | 84.2 |
-|GPT-j (6B)    | BM25 + MSS | 29.8 | 59.5 | 76.8 | 85.6 |
-|T5-lm-adapt (250M) | BM25 + MSS | 23.9 | 51.4 | 70.7 | 83.1 |
-|T5-lm-adapt (800M) | BM25 + MSS | 29.1 | 57.5 | 75.1 | 84.8 |
-|T5-lm-adapt (3B) | BM25 + MSS | 29.7 | 59.9 | 76.9 | 85.6 |
-|T5-lm-adapt (11B) | BM25 + MSS | 32.1 | 62.3 | 78.5 | 85.8 |
-|T0-3B | BM25 + MSS | 36.7 | **64.9** | **79.1** | **86.1** |
-|T0-11B | BM25 + MSS | **37.4** | **64.9** | **79.1** | 86.0 |
+|[T5 (3B)](https://huggingface.co/google/t5-v1_1-xl)   | BM25 + MSS | 22.0 | 50.5 | 71.4 | 84.0 |
+|[GPT-neo (2.7B)](https://huggingface.co/EleutherAI/gpt-neo-2.7B)| BM25 + MSS | 27.2 | 55.0 | 73.9 | 84.2 |
+|[GPT-j (6B)](https://huggingface.co/EleutherAI/gpt-j-6B) | BM25 + MSS | 29.8 | 59.5 | 76.8 | 85.6 |
+|[T5-lm-adapt (250M)](https://huggingface.co/google/t5-base-lm-adapt) | BM25 + MSS | 23.9 | 51.4 | 70.7 | 83.1 |
+|[T5-lm-adapt (800M)](https://huggingface.co/google/t5-large-lm-adapt) | BM25 + MSS | 29.1 | 57.5 | 75.1 | 84.8 |
+|[T5-lm-adapt (3B)](https://huggingface.co/google/t5-xl-lm-adapt) | BM25 + MSS | 29.7 | 59.9 | 76.9 | 85.6 |
+|[T5-lm-adapt (11B)](https://huggingface.co/google/t5-xxl-lm-adapt) | BM25 + MSS | 32.1 | 62.3 | 78.5 | 85.8 |
+|[T0-3B](https://huggingface.co/bigscience/T0_3B) | BM25 + MSS | 36.7 | **64.9** | **79.1** | **86.1** |
+|[T0-11B](https://huggingface.co/bigscience/T0) | BM25 + MSS | **37.4** | **64.9** | **79.1** | 86.0 |
 
 The GPT models can be run in UPR by using the script `gpt/upr_gpt.py`. This script has similar options to that of `upr.py` script, but we need to pass `--use-fp16` as the argument instead of `--use-bf16`.
 The argument of `--hf-model-name` can be either `EleutherAI/gpt-neo-2.7B` or `EleutherAI/gpt-j-6B`.
