@@ -131,10 +131,14 @@ class Reranking():
                                       truncation=True).input_ids
                 qlabel = qids
 
-                ids = cids + qids + [self.tokenizer.eos_token_id]
+                ids = cids + qids
+                if self.args.include_eos_token:
+                    ids = ids + [self.tokenizer.eos_token_id]
                 all_ids.append(ids)
 
                 labels = clabel + qlabel + [self.tokenizer.eos_token_id]
+                if self.args.include_eos_token:
+                    labels = labels + [self.tokenizer.eos_token_id]
                 all_labels.append(labels)
 
                 if len(ids) > max_input_size:
@@ -338,6 +342,9 @@ def get_args():
 
     group.add_argument('--report-topk-accuracies', nargs='+', type=int, default=[1, 5, 10, 20, 50, 100],
                        help="Which top-k accuracies to report (e.g. '1 5 20')")
+
+    group.add_argument('--include-eos-token', action='store_true',
+                       help='whether to include EOS token when calculating question generation likelihood')
 
     args = parser.parse_args()
     args.keep_empty = False
