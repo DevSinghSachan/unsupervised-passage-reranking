@@ -45,7 +45,7 @@ Over the docker container, please install the libraries `transformers` and `sent
 We follow the [DPR convention](https://arxiv.org/abs/2004.04906) and segment the Wikipedia articles into 100-word long passages.
 DPR's provided evidence file can be downloaded with the command
 ```python
-python utils/download_data.py --resource data.wikipedia_split.psgs_w100
+python utils/download_data.py --resource data.wikipedia-split.psgs_w100
 ```
 This evidence file contains tab-separated fields for passage id, passage text, and passage title. 
 
