@@ -427,6 +427,21 @@ RESOURCES_MAP = {
         "compressed": True,
         "desc": "Top-2000 passages from the union of MSS + BM25 for the NQ-Open dev set.",
     },
+
+    # Open-domain QA experiments checkpoint
+    "checkpoints.fid-mss-dpr-nq-base-topk100-bsize64": {
+        "dropbox_url": "https://www.dropbox.com/s/fo9vgophu81yjm3/fid-mss-dpr-nq-base-topk100-bsize64.tar.gz",
+        "original_ext": "",
+        "compressed": True,
+        "desc": "FiD checkpoint of NQ-Open trained MSS-DPR retrieved output using T5-base",
+    },
+
+    "checkpoints.fid-mss-dpr-trivia-base-topk100-bsize64": {
+        "dropbox_url": "https://www.dropbox.com/s/7qpnndn3cf0rwkp/fid-mss-dpr-trivia-base-topk100-bsize64.tar.gz",
+        "original_ext": "",
+        "compressed": True,
+        "desc": "FiD checkpoint of TriviaQA trained MSS-DPR retrieved output using T5-base",
+    }
 }
 
 
