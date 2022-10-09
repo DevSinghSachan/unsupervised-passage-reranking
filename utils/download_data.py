@@ -445,9 +445,9 @@ RESOURCES_MAP = {
         "desc": "MSS pre-trained T5-large",
     },
 
-    "data.bert-vocab": {
+    "data.bert-vocab.bert-large-uncased-vocab": {
         "dropbox_url": "https://www.dropbox.com/s/ttblv1uggd4cijt/bert-large-uncased-vocab.txt",
-        "original_ext": "",
+        "original_ext": ".txt",
         "compressed": False,
         "desc": "BERT tokenized vocabulary file",
     },
