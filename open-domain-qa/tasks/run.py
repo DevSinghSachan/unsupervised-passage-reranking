@@ -6,7 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),
 from megatron import get_args
 from megatron.initialize import initialize_megatron
 from megatron.global_vars import set_global_variables
-from tasks.openqa.e2eqa.async_indexer import initialize_and_run_async_megatron
 
 
 def get_tasks_args(parser):
@@ -51,11 +50,7 @@ if __name__ == '__main__':
                          args_defaults={'tokenizer_type': 'BertWordPieceLowerCase'},
                          ignore_unknown_args=False)
     args = get_args()
-
-    if args.async_indexer:
-        initialize_and_run_async_megatron()
-    else:
-        initialize_megatron()
+    initialize_megatron()
 
     if args.task == "OPENQA":
         from tasks.openqa.fid.run import main

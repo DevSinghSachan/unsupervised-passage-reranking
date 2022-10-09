@@ -2,7 +2,7 @@
 
 #SBATCH -p devlab -t 02:00:00 --nodes=4 --exclusive --gres=gpu:8 --mem=450G --overcommit --ntasks-per-node=8 --dependency=singleton --constraint=volta32gb --job-name=squad1-mss-dpr-fid-base-bs64-topk100-inference-ll
 
-USE_SLURM="true"
+USE_SLURM="false"
 NPROC=8
 CONFIG="base"
 TOPK=100
@@ -10,13 +10,12 @@ DATASET="squad1"
 BATCH_SIZE=64
 PER_GPU_BATCH_SIZE=1
 
-# It can be either train or inference
+# It can be either "train" or "inference"
 MODE="inference"
 
 BASE_DIR="/mnt/disks/project/data"
 DATA_DIR="${BASE_DIR}/retriever-outputs/dpr-emdr2/top-1000-outputs-mss-dpr"
 EVIDENCE_DATA_PATH="${BASE_DIR}/evidence-en/psgs_w100.tsv" 
-#psgs_w100.tsv"
 
 VOCAB_FILE="${BASE_DIR}/bert-vocab/bert-large-uncased-vocab.txt"
 
@@ -44,9 +43,8 @@ elif [ ${DATASET} == "trivia" ]; then
 
 elif [ ${DATASET} == "squad1" ]; then
     TRAIN_DATA="${DATA_DIR}/squad1-train.json"
-    VALID_DATA="${DATA_DIR}/squad1-dev.json"
-    #VALID_DATA="${BASE_DIR}/retriever-outputs/sparse-dense-hybrid/dpr-bm25/reranking/squad1-test.json"
-    TEST_DATA="${DATA_DIR}/reranking/squad1-dev.json"
+    VALID_DATA="${DATA_DIR}/reranking/squad1-dev.json"
+    TEST_DATA="${DATA_DIR}/reranking/squad1-test.json"
     EPOCHS=10
 
 else
@@ -76,7 +74,7 @@ function config_large() {
 
 if [ ${CONFIG} == "base" ]; then
     config_base
-    READER_CHKPT_PATH="${BASE_DIR}/checkpoints/mss-t5-base"
+    READER_CHKPT_PATH="${BASE_DIR}/checkpoints/mss-emdr2-reader-base-steps82k"
 
 elif [ ${CONFIG} == "large" ]; then
     config_large
