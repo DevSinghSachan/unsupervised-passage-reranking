@@ -428,15 +428,38 @@ RESOURCES_MAP = {
         "desc": "Top-2000 passages from the union of MSS + BM25 for the NQ-Open dev set.",
     },
 
-    # Open-domain QA experiments checkpoint
-    "checkpoints.fid-mss-dpr-nq-base-topk100-bsize64": {
+    # Open-domain QA experiments checkpoints
+
+    "data.checkpoints.mss-t5-base": {
+        "dropbox_url": "https://www.dropbox.com/s/33lm2685ifpei4l/mss-emdr2-reader-base-steps82k.tar.gz",
+        "original_ext": "",
+        "compressed": True,
+        "desc": "MSS pre-trained T5-base",
+    },
+
+    # TODO: Need to provide URL to MSS pre-trained T5-large checkpoint
+    "data.checkpoints.mss-t5-large": {
+        "dropbox_url": None,
+        "original_ext": "",
+        "compressed": True,
+        "desc": "MSS pre-trained T5-large",
+    },
+
+    "data.bert-vocab": {
+        "dropbox_url": "https://www.dropbox.com/s/ttblv1uggd4cijt/bert-large-uncased-vocab.txt",
+        "original_ext": "",
+        "compressed": False,
+        "desc": "BERT tokenized vocabulary file",
+    },
+
+    "data.checkpoints.fid-mss-dpr-nq-base-topk100-bsize64": {
         "dropbox_url": "https://www.dropbox.com/s/fo9vgophu81yjm3/fid-mss-dpr-nq-base-topk100-bsize64.tar.gz",
         "original_ext": "",
         "compressed": True,
         "desc": "FiD checkpoint of NQ-Open trained MSS-DPR retrieved output using T5-base",
     },
 
-    "checkpoints.fid-mss-dpr-trivia-base-topk100-bsize64": {
+    "data.checkpoints.fid-mss-dpr-trivia-base-topk100-bsize64": {
         "dropbox_url": "https://www.dropbox.com/s/7qpnndn3cf0rwkp/fid-mss-dpr-trivia-base-topk100-bsize64.tar.gz",
         "original_ext": "",
         "compressed": True,
