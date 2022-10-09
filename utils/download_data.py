@@ -452,6 +452,13 @@ RESOURCES_MAP = {
         "desc": "BERT tokenized vocabulary file",
     },
 
+    "data.evidence-wikipedia-indexed-mmap": {
+        "dropbox_url": "https://www.dropbox.com/s/nc49dkno8o3pgb3/evidence-wikipedia-indexed-mmap.tar.gz",
+        "original_ext": "",
+        "compressed": True,
+        "desc": "Pre-tokenized evidence and title path",
+    },
+
     "data.checkpoints.fid-mss-dpr-nq-base-topk100-bsize64": {
         "dropbox_url": "https://www.dropbox.com/s/fo9vgophu81yjm3/fid-mss-dpr-nq-base-topk100-bsize64.tar.gz",
         "original_ext": "",
