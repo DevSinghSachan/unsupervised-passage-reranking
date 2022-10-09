@@ -2,8 +2,8 @@ from megatron import get_args
 from megatron import get_tokenizer
 from megatron import print_rank_0
 from megatron.model import FiDModel, EvidenceDocsIndexer
-from tasks.openqa.e2eqa.train_e2eqa import accuracy_func_provider
-from tasks.openqa.e2eqa.train_e2eqa import train
+from tasks.openqa.fid.train import accuracy_func_provider
+from tasks.openqa.fid.train import train
 
 
 def open_retrieval_generative_qa(dataset_cls):
@@ -64,7 +64,7 @@ def main():
     args = get_args()
 
     if args.task == "OPENQA":
-        from tasks.openqa.e2eqa.train_data_utils import OpenQADataset as dataset_cls
+        from tasks.openqa.fid.train_data_utils import OpenQADataset as dataset_cls
     else:
         raise NotImplementedError('ORQA task {} is not implemented.'.format(
             args.task))

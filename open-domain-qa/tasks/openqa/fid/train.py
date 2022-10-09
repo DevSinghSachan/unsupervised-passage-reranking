@@ -18,7 +18,7 @@ from megatron.utils import reduce_losses
 from megatron import get_t5_tokenizer
 from megatron.mpu import vocab_parallel_cross_entropy as cross_entropy
 from megatron.model.search_strategy import SampleOrGreedySearch, BeamSearch
-from tasks.openqa.e2eqa.eval_utils import exact_match_score, metric_max_over_ground_truths
+from tasks.openqa.fid.eval_utils import exact_match_score, metric_max_over_ground_truths
 from megatron.mpu.initialize import get_new_index_ready, get_new_chkpt_ready, get_gloo_comm_group
 
 
