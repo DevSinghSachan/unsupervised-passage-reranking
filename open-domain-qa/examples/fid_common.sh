@@ -6,7 +6,7 @@ USE_SLURM="false"
 NPROC=8
 CONFIG="base"
 TOPK=100
-DATASET="squad1"
+DATASET="nq"
 BATCH_SIZE=64
 PER_GPU_BATCH_SIZE=1
 
@@ -14,8 +14,8 @@ PER_GPU_BATCH_SIZE=1
 MODE="inference"
 
 BASE_DIR="/mnt/disks/project/data"
-DATA_DIR="${BASE_DIR}/retriever-outputs/dpr-emdr2/top-1000-outputs-mss-dpr"
-EVIDENCE_DATA_PATH="${BASE_DIR}/evidence-en/psgs_w100.tsv" 
+DATA_DIR="${BASE_DIR}/retriever-outputs/mss-dpr"
+EVIDENCE_DATA_PATH="${BASE_DIR}/wikipedia-split/psgs_w100.tsv"
 
 VOCAB_FILE="${BASE_DIR}/bert-vocab/bert-large-uncased-vocab.txt"
 
@@ -31,20 +31,20 @@ mkdir -p $DIR/logs/fid
 
 if [ ${DATASET} == "nq" ]; then
     TRAIN_DATA="${DATA_DIR}/nq-train.json"
-    VALID_DATA="${DATA_DIR}/reranking/nq-dev.json"
-    TEST_DATA="${DATA_DIR}/reranking/nq-test.json"
+    VALID_DATA="${DATA_DIR}/nq-dev.json"
+    TEST_DATA="${DATA_DIR}/nq-test.json"
     EPOCHS=10
 
 elif [ ${DATASET} == "trivia" ]; then
     TRAIN_DATA="${DATA_DIR}/trivia-train.json"
-    VALID_DATA="${DATA_DIR}/reranking/trivia-dev.json"
-    TEST_DATA="${DATA_DIR}/reranking/trivia-test.json"
+    VALID_DATA="${DATA_DIR}/trivia-dev.json"
+    TEST_DATA="${DATA_DIR}/trivia-test.json"
     EPOCHS=10
 
 elif [ ${DATASET} == "squad1" ]; then
     TRAIN_DATA="${DATA_DIR}/squad1-train.json"
-    VALID_DATA="${DATA_DIR}/reranking/squad1-dev.json"
-    TEST_DATA="${DATA_DIR}/reranking/squad1-test.json"
+    VALID_DATA="${DATA_DIR}/squad1-dev.json"
+    TEST_DATA="${DATA_DIR}/squad1-test.json"
     EPOCHS=10
 
 else
