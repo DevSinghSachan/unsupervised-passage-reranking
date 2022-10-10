@@ -213,6 +213,9 @@ Language Model | Retriever | Top-1 | Top-5 | Top-20 | Top-100
 The GPT models can be run in UPR by using the script `gpt/upr_gpt.py`. This script has similar options to that of `upr.py` script, but we need to pass `--use-fp16` as the argument instead of `--use-bf16`.
 The argument of `--hf-model-name` can be either `EleutherAI/gpt-neo-2.7B` or `EleutherAI/gpt-j-6B`.
 
+#### Open-Domain QA Experiments
+Please see the directory [open-domain-qa](#open-domain-qa) for details to do training and inference with pre-trained checkpoints.
+
 <a id="issues"></a>
 # Issues
 For any errors or bugs in the codebase, please either open a new issue or send an email to Devendra Singh Sachan (sachan.devendra@gmail.com) .
