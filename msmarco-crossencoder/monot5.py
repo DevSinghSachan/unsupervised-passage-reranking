@@ -46,7 +46,9 @@ class UnsupervisedPassageReranker():
         self.temp_dir_name = os.path.join(args.reranker_output_dir, '_tmp_reranker')
 
     def load_attributes(self):
+
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
+        """
         self.tokenizer = T5Tokenizer.from_pretrained(self.args.hf_model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(self.args.hf_model_name,
                                                                 torch_dtype=torch.bfloat16 if self.args.use_bf16 else torch.float32)
@@ -61,8 +63,9 @@ class UnsupervisedPassageReranker():
 
         # disable dropout
         self.model.eval()
+        """
 
-        self.reranker = MonoT5(self.model)
+        self.reranker = MonoT5(self.args.hf_model_name)
 
         self.evidence_dataset = get_open_retrieval_wiki_dataset(args=self.args,
                                                                 tokens_encode_func=None)
@@ -102,14 +105,14 @@ class UnsupervisedPassageReranker():
             all_contexts = batch['encoder_ids'][0][:self.args.topk_passages]
 
             all_ids = []
-            # has_answer_list = []
+            has_answer_list = []
 
             for i, context in enumerate(all_contexts):
                 text, title = self.evidence_dataset.id2text[int(context.get("id"))]
                 # ids = "{} {}".format(title, text)
                 metadata = {'docid': int(context.get("id")), 'has_answer': context.get('has_answer')}
                 all_ids.append(Text(text, metadata=metadata, score=0, title=title))
-                # has_answer_list.append(context.get('has_answer'))
+                has_answer_list.append(context.get('has_answer'))
 
             # input_encoding = self.tokenizer(all_ids,
             #                                 padding='longest',
@@ -161,14 +164,16 @@ class UnsupervisedPassageReranker():
             # topk_scores, indexes = torch.topk(-torch.cat(sharded_nll_list), k=len(context_tensor))
 
             reranked = sorted(sharded_nll_list, key=lambda x: x.score, reverse=True)
-            ranked_answers = torch.BoolTensor(has_answer_list)[indexes]
+            ranked_answers = [item['metadata']['has_answer'] for item in reranked]
 
             # Save the essential information to be used for saving the re-ranked information component.
             original_answers_list.append(has_answer_list)
-            reranked_answers_list.append(ranked_answers.tolist())
+            reranked_answers_list.append(ranked_answers)
 
+            """
             reordered_context = [all_contexts[i] for i in indexes]
 
+            
             for i, ctx in enumerate(reordered_context):
                 ctx['score'] = topk_scores[i].item()
 
@@ -176,6 +181,7 @@ class UnsupervisedPassageReranker():
                     "answers": batch['answers'][0],
                     "ctxs": reordered_context[:self.args.report_topk_accuracies[-1]]}
             reranked_data.append(item)
+            """
 
             self.track_and_report_progress(batch_size=len(batch['id']))
 
