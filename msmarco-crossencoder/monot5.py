@@ -48,7 +48,7 @@ class UnsupervisedPassageReranker():
     def load_attributes(self):
 
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
-        """
+
         self.tokenizer = T5Tokenizer.from_pretrained(self.args.hf_model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(self.args.hf_model_name,
                                                                 torch_dtype=torch.bfloat16 if self.args.use_bf16 else torch.float32)
@@ -63,9 +63,9 @@ class UnsupervisedPassageReranker():
 
         # disable dropout
         self.model.eval()
-        """
 
-        self.reranker = MonoT5(self.args.hf_model_name)
+
+        self.reranker = MonoT5(self.model)
 
         self.evidence_dataset = get_open_retrieval_wiki_dataset(args=self.args,
                                                                 tokens_encode_func=None)
@@ -165,7 +165,7 @@ class UnsupervisedPassageReranker():
             # topk_scores, indexes = torch.topk(-torch.cat(sharded_nll_list), k=len(context_tensor))
 
             reranked = sorted(sharded_nll_list, key=lambda x: x.score, reverse=True)
-            ranked_answers = [item['metadata']['has_answer'] for item in reranked]
+            ranked_answers = [item.metadata['has_answer'] for item in reranked]
 
             # Save the essential information to be used for saving the re-ranked information component.
             original_answers_list.append(has_answer_list)
