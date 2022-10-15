@@ -49,6 +49,7 @@ class UnsupervisedPassageReranker():
 
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
 
+        """
         self.tokenizer = T5Tokenizer.from_pretrained(self.args.hf_model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(self.args.hf_model_name,
                                                                 torch_dtype=torch.bfloat16 if self.args.use_bf16 else torch.float32)
@@ -63,9 +64,9 @@ class UnsupervisedPassageReranker():
 
         # disable dropout
         self.model.eval()
+        """
 
-
-        self.reranker = MonoT5(self.model)
+        self.reranker = MonoT5(self.args.hf_model_name)
 
         self.evidence_dataset = get_open_retrieval_wiki_dataset(args=self.args,
                                                                 tokens_encode_func=None)
