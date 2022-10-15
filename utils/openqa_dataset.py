@@ -48,7 +48,7 @@ class OpenQADataset(ABC, Dataset):
             row['question'] = " ".join(row['question'].split()[1:-1])
 
         if self.task_name == "reranking":
-            decoder_prompt = "Question: {}{}".format(row['question'], self.ques_punc)
+            decoder_prompt = "{}{}".format(row['question'], self.ques_punc)
         else:
             raise AssertionError("invalid --task-name argument {}".format(self.task_name))
 
