@@ -156,6 +156,7 @@ class UnsupervisedPassageReranker():
                 # log_softmax = torch.nn.functional.log_softmax(logits, dim=-1)
                 # nll = -log_softmax.gather(2, decoder_tensor_view.unsqueeze(2)).squeeze(2)
 
+                all_ids_view = all_ids[i: i + self.args.shard_size]
                 reranked = self.reranker.rerank(query, all_ids)
 
                 # avg_nll = torch.sum(nll, dim=1)
