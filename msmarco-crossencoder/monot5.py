@@ -188,7 +188,7 @@ class UnsupervisedPassageReranker():
             self.track_and_report_progress(batch_size=len(batch['id']))
 
         end_time = time.time()
-        time_taken = (end_time - start_time) / len(reranked_data)
+        time_taken = (end_time - start_time) / len(reranked_answers_list)
         torch.distributed.barrier()
 
         print_rank_0("Time taken: {} seconds".format(time_taken))
