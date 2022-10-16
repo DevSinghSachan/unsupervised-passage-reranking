@@ -66,7 +66,7 @@ class UnsupervisedPassageReranker():
         self.model.eval()
         """
 
-        self.reranker = MonoT5(self.args.hf_model_name)
+        self.reranker = MonoT5(self.args.hf_model_name, token_false='▁false', token_true='▁true')
 
         self.evidence_dataset = get_open_retrieval_wiki_dataset(args=self.args,
                                                                 tokens_encode_func=None)
