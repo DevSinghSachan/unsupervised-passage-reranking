@@ -1,3 +1,17 @@
+Instructions to use this branch `cross-encoder`
+* Checkpoints available here: https://huggingface.co/castorini
+* Installation instructions are here: https://github.com/castorini/pygaggle/blob/master/docs/experiments-msmarco-passage-subset.md#pygaggle-neural-ranking-baselines-on-ms-marco-passage-retrieval---dev-subset
+* Over this please install `javac` using 
+```bash
+sudo apt-get update
+sudo apt install openjdk-11-jdk
+``` 
+* Over this, install `faiss` using
+```bash
+pip install faiss-cpu
+```
+
+
 <a id="contents"></a>
 # Contents
 <!-- MarkdownTOC -->

@@ -49,23 +49,6 @@ class UnsupervisedPassageReranker():
 
         print_rank_0("Loading {} weights".format(self.args.hf_model_name))
 
-        """
-        self.tokenizer = T5Tokenizer.from_pretrained(self.args.hf_model_name)
-        self.model = T5ForConditionalGeneration.from_pretrained(self.args.hf_model_name,
-                                                                torch_dtype=torch.bfloat16 if self.args.use_bf16 else torch.float32)
-
-        for param in self.model.parameters():
-            param.requires_grad = False
-
-        if self.args.use_gpu:
-            self.model = self.model.cuda()
-
-        print_rank_0("Loaded {} weights".format(self.args.hf_model_name))
-
-        # disable dropout
-        self.model.eval()
-        """
-
         self.reranker = MonoT5(self.args.hf_model_name, token_false='▁false', token_true='▁true')
 
         self.evidence_dataset = get_open_retrieval_wiki_dataset(args=self.args,
@@ -115,55 +98,14 @@ class UnsupervisedPassageReranker():
                 all_ids.append(Text(text, metadata=metadata, score=0, title=title))
                 has_answer_list.append(context.get('has_answer'))
 
-            # input_encoding = self.tokenizer(all_ids,
-            #                                 padding='longest',
-            #                                 max_length=512,
-            #                                 pad_to_multiple_of=8,
-            #                                 truncation=True,
-            #                                 return_tensors='pt')
-
-            # context_tensor, attention_mask = input_encoding.input_ids, input_encoding.attention_mask
-            # if self.args.use_gpu:
-            #     context_tensor = context_tensor.cuda()
-            #     attention_mask = attention_mask.cuda()
-
             decoder_prefix = batch['decoder_ids']
             query = Query(decoder_prefix[0])
-            # target_encoding = self.tokenizer(decoder_prefix,
-            #                                  max_length=128,
-            #                                  truncation=True,
-            #                                  return_tensors='pt')
-            #
-            # decoder_prefix_tensor = target_encoding.input_ids
-            # if self.args.use_gpu:
-            #     decoder_prefix_tensor = decoder_prefix_tensor.cuda()
-            #
-            # decoder_prefix_tensor = torch.repeat_interleave(decoder_prefix_tensor,
-            #                                                 len(context_tensor),
-            #                                                 dim=0)
             sharded_nll_list = []
 
             for i in range(0, len(all_ids), self.args.shard_size):
-                # encoder_tensor_view = context_tensor[i: i + self.args.shard_size]
-                # attention_mask_view = attention_mask[i: i + self.args.shard_size]
-                # decoder_tensor_view = decoder_prefix_tensor[i: i + self.args.shard_size]
-                #
-                # with torch.no_grad():
-                #     logits = self.model(input_ids=encoder_tensor_view,
-                #                         attention_mask=attention_mask_view,
-                #                         labels=decoder_tensor_view).logits
-
-
-                # log_softmax = torch.nn.functional.log_softmax(logits, dim=-1)
-                # nll = -log_softmax.gather(2, decoder_tensor_view.unsqueeze(2)).squeeze(2)
-
                 all_ids_view = all_ids[i: i + self.args.shard_size]
                 reranked = self.reranker.rerank(query, all_ids_view)
-
-                # avg_nll = torch.sum(nll, dim=1)
                 sharded_nll_list.extend(reranked)
-
-            # topk_scores, indexes = torch.topk(-torch.cat(sharded_nll_list), k=len(context_tensor))
 
             reranked = sorted(sharded_nll_list, key=lambda x: x.score, reverse=True)
             ranked_answers = [item.metadata['has_answer'] for item in reranked]
@@ -171,19 +113,6 @@ class UnsupervisedPassageReranker():
             # Save the essential information to be used for saving the re-ranked information component.
             original_answers_list.append(has_answer_list)
             reranked_answers_list.append(ranked_answers)
-
-            """
-            reordered_context = [all_contexts[i] for i in indexes]
-
-            
-            for i, ctx in enumerate(reordered_context):
-                ctx['score'] = topk_scores[i].item()
-
-            item = {"question": batch['question'][0],
-                    "answers": batch['answers'][0],
-                    "ctxs": reordered_context[:self.args.report_topk_accuracies[-1]]}
-            reranked_data.append(item)
-            """
 
             self.track_and_report_progress(batch_size=len(batch['id']))
 
