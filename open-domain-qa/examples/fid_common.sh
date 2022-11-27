@@ -1,26 +1,24 @@
 #! /bin/bash
 
-#SBATCH -p devlab -t 02:00:00 --nodes=4 --exclusive --gres=gpu:8 --mem=450G --overcommit --ntasks-per-node=8 --dependency=singleton --constraint=volta32gb --job-name=squad1-mss-dpr-fid-base-bs64-topk100-inference-ll
-
 USE_SLURM="false"
 NPROC=8
 CONFIG="base"
 TOPK=100
 DATASET="nq"
 BATCH_SIZE=64
-PER_GPU_BATCH_SIZE=1
 
 # It can be either "train" or "inference"
 MODE="inference"
 
-BASE_DIR="/mnt/disks/project/data"
-DATA_DIR="${BASE_DIR}/retriever-outputs/mss-dpr"
-EVIDENCE_DATA_PATH="${BASE_DIR}/wikipedia-split/psgs_w100.tsv"
+# Please set the absolute path of the BASE_DIR
+BASE_DIR="/mnt/disks/project/downloads/data"
 
+DATA_DIR="${BASE_DIR}/retriever-outputs/mss-dpr"
+
+EVIDENCE_DATA_PATH="${BASE_DIR}/wikipedia-split/psgs_w100.tsv"
 VOCAB_FILE="${BASE_DIR}/bert-vocab/bert-large-uncased-vocab.txt"
 
 CHECKPOINT_PATH="${BASE_DIR}/checkpoints/fid-mss-dpr-${DATASET}-${CONFIG}-topk${TOPK}-bsize${BATCH_SIZE}"
-#rm -rf ${CHECKPOINT_PATH}
 
 DISTRIBUTED_ARGS="-m torch.distributed.launch --nproc_per_node ${NPROC} --nnodes 1 --node_rank 0 --master_addr localhost --master_port 6000"
 NAME="fid-${DATASET}-${CONFIG}-top${TOPK}-bsize${BATCH_SIZE}"
@@ -28,23 +26,27 @@ DIR=`pwd`
 DATETIME=`date +'date_%y-%m-%d_time_%H-%M-%S'`
 mkdir -p $DIR/logs/fid
 
+# For training FiD, please point to the paths of the correct VALID_DATA and TEST_DATA.
+# For example:
+# During training, VALID_DATA="${DATA_DIR}/nq-dev.json"
+# During inference, VALID_DATA="${DATA_DIR}/reranked/nq-dev.json"
 
 if [ ${DATASET} == "nq" ]; then
     TRAIN_DATA="${DATA_DIR}/nq-train.json"
-    VALID_DATA="${DATA_DIR}/nq-dev.json"
-    TEST_DATA="${DATA_DIR}/nq-test.json"
+    VALID_DATA="${DATA_DIR}/reranked/nq-dev.json"
+    TEST_DATA="${DATA_DIR}/reranked/nq-test.json"
     EPOCHS=10
 
 elif [ ${DATASET} == "trivia" ]; then
     TRAIN_DATA="${DATA_DIR}/trivia-train.json"
-    VALID_DATA="${DATA_DIR}/trivia-dev.json"
-    TEST_DATA="${DATA_DIR}/trivia-test.json"
+    VALID_DATA="${DATA_DIR}/reranked/trivia-dev.json"
+    TEST_DATA="${DATA_DIR}/reranked/trivia-test.json"
     EPOCHS=10
 
 elif [ ${DATASET} == "squad1" ]; then
     TRAIN_DATA="${DATA_DIR}/squad1-train.json"
-    VALID_DATA="${DATA_DIR}/squad1-dev.json"
-    TEST_DATA="${DATA_DIR}/squad1-test.json"
+    VALID_DATA="${DATA_DIR}/reranked/squad1-dev.json"
+    TEST_DATA="${DATA_DIR}/reranked/squad1-test.json"
     EPOCHS=10
 
 else

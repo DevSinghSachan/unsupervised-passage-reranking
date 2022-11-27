@@ -128,7 +128,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the Natural Questions Open development set.",
     },
     "data.retriever-outputs.dpr.reranked.nq-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/osolohjruv3dw2y/nq-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/azgxqndbmfdnq54/nq-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the Natural Questions Open development set.",
@@ -140,7 +140,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the Natural Questions Open test set.",
     },
     "data.retriever-outputs.dpr.reranked.nq-test": {
-        "dropbox_url": "https://www.dropbox.com/s/x1nxpf0uz5lapz6/nq-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/7uzd0tqljlefu9e/nq-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the Natural Questions Open test set.",
@@ -158,7 +158,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the TriviaQA test set.",
     },
     "data.retriever-outputs.dpr.reranked.trivia-test": {
-        "dropbox_url": "https://www.dropbox.com/s/s7g76bkftwinozw/trivia-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/y8cryr02psnbeue/trivia-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the TriviaQA test set.",
@@ -170,7 +170,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the TriviaQA dev set.",
     },
     "data.retriever-outputs.dpr.reranked.trivia-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/zz3btm8bhaw1c7c/trivia-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/5dqlupm9uxcpp7d/trivia-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the TriviaQA dev set.",
@@ -194,7 +194,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the Squad1-Open dev set.",
     },
     "data.retriever-outputs.dpr.reranked.squad1-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/tbbm9s1jksw31fk/squad1-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/c1fct2raniroawa/squad1-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the Squad1-Open dev set.",
@@ -206,7 +206,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from DPR for the Squad1-Open test set.",
     },
     "data.retriever-outputs.dpr.reranked.squad1-test": {
-        "dropbox_url": "https://www.dropbox.com/s/taitdxquvhqc0da/squad1-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/3aplzan3b4dpigz/squad1-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from DPR + UPR (T0-3B) for the Squad1-Open test set.",
@@ -220,40 +220,40 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS-DPR for the Entity Questions test set.",
     },
     "data.retriever-outputs.mss-dpr.reranked.nq-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/rbbnx0vfaz5un0z/nq-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/7qi44tnpyurks0w/nq-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the Natural Questions Open development set.",
     },
     "data.retriever-outputs.mss-dpr.reranked.nq-test": {
-        "dropbox_url": "https://www.dropbox.com/s/xxnqp97i2cb2cv0/nq-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/vtt8daazmrav3d1/nq-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the Natural Questions Open test set.",
     },
     "data.retriever-outputs.mss-dpr.reranked.trivia-test": {
-        "dropbox_url": "https://www.dropbox.com/s/lf8xz4vnqqosz1t/trivia-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/b9xv35wk60ftoqc/trivia-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the TriviaQA test set.",
     },
     "data.retriever-outputs.mss-dpr.reranked.trivia-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/t0cy9ohxwno2af0/trivia-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/2q7oic623l9tsqq/trivia-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the TriviaQA dev set.",
     },
-    "data.retriever-outputs.mss-dpr.reranked.webq-test": {
-        "dropbox_url": "https://www.dropbox.com/s/43if28wgry73xu3/webq-test.tar.gz",
-        "original_ext": ".json",
-        "compressed": True,
-        "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the WebQuestions test set.",
-    },
     "data.retriever-outputs.mss-dpr.reranked.squad1-test": {
-        "dropbox_url": "https://www.dropbox.com/s/y1q6kg44z8pm2uw/squad1-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/ce3q59x7bzt6sax/squad1-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the Squad1 test set.",
+    },
+    "data.retriever-outputs.mss-dpr.reranked.squad1-dev": {
+        "dropbox_url": "https://www.dropbox.com/s/rdrxy4igpp35ts3/squad1-dev.tar.gz",
+        "original_ext": ".json",
+        "compressed": True,
+        "desc": "Top-1000 passages from MSS-DPR + UPR (T0-3B) for the Squad1 dev set.",
     },
     "data.retriever-outputs.mss-dpr.nq-dev": {
         "dropbox_url": "https://www.dropbox.com/s/suwr38hkldd8ly0/nq-dev.tar.gz",
@@ -336,7 +336,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the Natural Questions Open development set.",
     },
     "data.retriever-outputs.mss.reranked.nq-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/6a4acadq3uf7vwm/nq-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/6cu62qavr4tmzjy/nq-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the Natural Questions Open development set.",
@@ -348,7 +348,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the Natural Questions Open test set.",
     },
     "data.retriever-outputs.mss.reranked.nq-test": {
-        "dropbox_url": "https://www.dropbox.com/s/io1pjspj1kb4h7n/nq-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/03qfxv1uvzdelpb/nq-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the Natural Questions Open test set.",
@@ -366,7 +366,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the TriviaQA test set.",
     },
     "data.retriever-outputs.mss.reranked.trivia-test": {
-        "dropbox_url": "https://www.dropbox.com/s/cke6ahx2gpz0ldq/trivia-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/nubtuzirsqz3t2r/trivia-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the TriviaQA test set.",
@@ -378,7 +378,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the TriviaQA dev set.",
     },
     "data.retriever-outputs.mss.reranked.trivia-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/bj0ite79epziztx/trivia-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/27hvs5jjhwmqvjg/trivia-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the TriviaQA dev set.",
@@ -402,7 +402,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the Squad1-Open dev set.",
     },
     "data.retriever-outputs.mss.reranked.squad1-dev": {
-        "dropbox_url": "https://www.dropbox.com/s/yhl5qxp19zi16tk/squad1-dev.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/aijihqmzfxcp9ay/squad1-dev.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the Squad1-Open dev set.",
@@ -414,7 +414,7 @@ RESOURCES_MAP = {
         "desc": "Top-1000 passages from MSS for the Squad1-Open test set.",
     },
     "data.retriever-outputs.mss.reranked.squad1-test": {
-        "dropbox_url": "https://www.dropbox.com/s/zi6p63pvcdpan4o/squad1-test.tar.gz",
+        "dropbox_url": "https://www.dropbox.com/s/5nwyrs4ob83fkjv/squad1-test.tar.gz",
         "original_ext": ".json",
         "compressed": True,
         "desc": "Top-1000 passages from MSS + UPR (T0-3B) for the Squad1-Open test set.",

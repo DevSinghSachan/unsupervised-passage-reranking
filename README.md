@@ -16,12 +16,12 @@ This repository contains the official implementation of the UPR (Unsupervised Pa
 
 **UPR Algorithm**
 <p align="center">
-  <img src="images/upr-model-diagram-small.png">
+  <img src="images/upr-block-diagram.png">
 </p>
 
 **Results after Re-ranking Contriever's top-1000 Wikipedia passages**
 <p align="center">
-  <img src="images/cmp-small.png">
+  <img src="images/top20-accuracy.png">
 </p>
 
 
@@ -164,6 +164,7 @@ To use this script, please modify the data and input / output file paths accordi
 
  We provide the evaluation scores on the test sets of datasets when using T0-3B language model in UPR.
 
+### Passage Retrieval
 * Top-20 retrieval accuracy for unsupervised retrievers
 
 Retriever (+Re-ranker)  | SQuAD-Open | TriviaQA | Natural Questions-Open | Web Questions | Entity Questions
@@ -173,7 +174,7 @@ MSS + *UPR*        | 75.7 | 81.3 | 77.3 | 71.8 | 71.3 |
 BM25               | 71.1 | 76.4 | 62.9 | 62.4 | 71.2 |
 BM25 + *UPR*       | **83.6** | **83.0** | 78.6 | 72.9 | **79.3** |  
 Contriever         | 63.4 |  73.9 | 67.9 | 65.7 | 63.0 |
-Contriever + *UPR* | 81.3 | **82.8** | **84.7** | **75.7** | 76.0
+Contriever + *UPR* | 81.3 | 82.8 | **80.4** | **75.7** | 76.0
 
 * Top-20 retrieval accuracy for supervised retrievers
 
@@ -185,7 +186,7 @@ MSS-DPR            | 73.1 | 81.9 | 81.4 | 76.9 | 60.6 |
 MSS-DPR + *UPR*    | **85.2** | **84.8** | **83.9** | **77.2** | 73.9 |
 
 
-#### Ablation Study: Impact of Pre-trained Language Models
+### Ablation Study: Impact of Pre-trained Language Models
 
 We re-rank the union of top-1000 passages retrieved from each of BM25 and MSS retrievers Natural Questions-Open development set.
 This data file can be downloaded as:
@@ -213,8 +214,8 @@ Language Model | Retriever | Top-1 | Top-5 | Top-20 | Top-100
 The GPT models can be run in UPR by using the script `gpt/upr_gpt.py`. This script has similar options to that of `upr.py` script, but we need to pass `--use-fp16` as the argument instead of `--use-bf16`.
 The argument of `--hf-model-name` can be either `EleutherAI/gpt-neo-2.7B` or `EleutherAI/gpt-j-6B`.
 
-#### Open-Domain QA Experiments
-Please see the directory [open-domain-qa](#open-domain-qa) for details to do training and inference with pre-trained checkpoints.
+### Open-Domain QA Experiments
+Please see the directory [open-domain-qa](open-domain-qa/README.md) for details to do training and inference with the pre-trained checkpoints.
 
 <a id="issues"></a>
 # Issues
@@ -227,9 +228,11 @@ If you find this code or data useful, please consider citing our paper as:
 
 ```bash
 @article{sachan2022improving,
-  title={Improving Passage Retrieval with Zero-Shot Question Generation},
-  author={Sachan, Devendra Singh and Lewis, Mike and Joshi, Mandar and Aghajanyan, Armen and Yih, Wen-tau and Pineau, Joelle and Zettlemoyer, Luke},
-  journal={arXiv preprint arXiv:2204.07496},
-  year={2022}
+  title = "Improving Passage Retrieval with Zero-Shot Question Generation",
+  author = "Sachan, Devendra Singh and Lewis, Mike and Joshi, Mandar and Aghajanyan, Armen and Yih, Wen-tau and Pineau, Joelle and Zettlemoyer, Luke",
+  booktitle = "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing",
+  publisher = "Association for Computational Linguistics",
+  url = "https://arxiv.org/abs/2204.07496",
+  year = "2022"
 }
 ```
