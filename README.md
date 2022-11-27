@@ -14,12 +14,13 @@
 
 This repository contains the official implementation of the UPR (Unsupervised Passage Re-ranking) algorithm introduced in the paper "[Improving Passage Retrieval with Zero-Shot Question Generation](https://arxiv.org/abs/2204.07496)".
 
-**UPR Algorithm**
+## UPR Algorithm
 <p align="center">
   <img src="images/upr-block-diagram.png">
 </p>
 
-**Results after Re-ranking Contriever's top-1000 Wikipedia passages**
+
+#### Results after re-ranking Contriever's top-1000 wikipedia passages
 <p align="center">
   <img src="images/top20-accuracy.png">
 </p>
