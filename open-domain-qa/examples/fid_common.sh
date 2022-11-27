@@ -17,6 +17,9 @@ DATA_DIR="${BASE_DIR}/retriever-outputs/mss-dpr"
 
 EVIDENCE_DATA_PATH="${BASE_DIR}/wikipedia-split/psgs_w100.tsv"
 VOCAB_FILE="${BASE_DIR}/bert-vocab/bert-large-uncased-vocab.txt"
+MMAP_INDEXED_EVIDENCE_PATH="${BASE_DIR}/evidence-wikipedia-indexed-mmap/wikipedia-evidence_text_document"
+MMAP_INDEXED_TITLE_PATH="${BASE_DIR}/evidence-wikipedia-indexed-mmap/wikipedia-evidence_title_document"
+
 
 CHECKPOINT_PATH="${BASE_DIR}/checkpoints/fid-mss-dpr-${DATASET}-${CONFIG}-topk${TOPK}-bsize${BATCH_SIZE}"
 
@@ -80,7 +83,7 @@ if [ ${CONFIG} == "base" ]; then
 
 elif [ ${CONFIG} == "large" ]; then
     config_large
-    READER_CHKPT_PATH="${BASE_DIR}/checkpoints/mss-t5-large"
+    READER_CHKPT_PATH="${BASE_DIR}/checkpoints/t5-large"
 
 else
     echo "Invalid model configuration"
@@ -105,8 +108,8 @@ OPTIONS=" \
           --valid-data $VALID_DATA \
           --test-data $TEST_DATA \
           --evidence-data-path ${EVIDENCE_DATA_PATH} \
-          --indexed-evidence-data-path ${BASE_DIR}/evidence-wikipedia-indexed-mmap/wikipedia-evidence_text_document \
-          --indexed-title-data-path ${BASE_DIR}/evidence-wikipedia-indexed-mmap/wikipedia-evidence_title_document \
+          --indexed-evidence-data-path ${MMAP_INDEXED_EVIDENCE_PATH} \
+          --indexed-title-data-path ${MMAP_INDEXED_TITLE_PATH} \
           --save-interval 500 \
           --save ${CHECKPOINT_PATH} \
           --load ${CHECKPOINT_PATH} \

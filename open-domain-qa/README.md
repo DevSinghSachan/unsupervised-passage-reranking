@@ -19,7 +19,8 @@ We've provided pretrained checkpoints and datasets on Dropbox for use to train m
 This data can be downloaded here:
 
 *Required data files to be downloaded*
-- [Pre-tokenized memory-mapped (indexed) evidence passages and titles](https://www.dropbox.com/s/nc49dkno8o3pgb3/evidence-wikipedia-indexed-mmap.tar.gz)
+- [Wikipedia (2018) passages](https://www.dropbox.com/s/bezryc9win2bha1/psgs_w100.tar.gz)
+- [Pre-tokenized memory-mapped (indexed) Wikipedia passages and titles](https://www.dropbox.com/s/nc49dkno8o3pgb3/evidence-wikipedia-indexed-mmap.tar.gz)
 - [BERT-large vocabulary file](https://www.dropbox.com/s/ttblv1uggd4cijt/bert-large-uncased-vocab.txt)
 
 The pre-tokenized evidence file(s) can be obtained with this command.

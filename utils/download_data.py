@@ -430,19 +430,18 @@ RESOURCES_MAP = {
 
     # Open-domain QA experiments checkpoints
 
-    "data.checkpoints.mss-t5-base": {
+    "data.checkpoints.t5-base": {
         "dropbox_url": "https://www.dropbox.com/s/33lm2685ifpei4l/mss-emdr2-reader-base-steps82k.tar.gz",
         "original_ext": "",
         "compressed": True,
-        "desc": "MSS pre-trained T5-base",
+        "desc": "T5-base",
     },
 
-    # TODO: Need to provide URL to MSS pre-trained T5-large checkpoint
-    "data.checkpoints.mss-t5-large": {
-        "dropbox_url": None,
+    "data.checkpoints.t5-large": {
+        "dropbox_url": "https://www.dropbox.com/s/wjul4xgkgiuli6s/t5_large.tar.gz",
         "original_ext": "",
         "compressed": True,
-        "desc": "MSS pre-trained T5-large",
+        "desc": "T5-large",
     },
 
     "data.bert-vocab.bert-large-uncased-vocab": {
